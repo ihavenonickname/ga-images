@@ -64,10 +64,11 @@ get('button-evolve').addEventListener('click', e => {
 
     const evolution = () => {
         evolve();
-        draw(context.population[context.population.length - 1]);
-        get('best-fitness').textContent = (context.bestFitness * 100).toFixed(2);
+        const bestIndividual = context.population[context.population.length - 1];
+        draw(bestIndividual);
+        get('best-fitness').textContent = (bestIndividual.lastFitness * 100).toFixed(2);
 
-        if (context.bestFitness < 0.95) {
+        if (bestIndividual.lastFitness < 0.99) {
             setTimeout(evolution, 0);
         }
     }

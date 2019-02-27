@@ -3,18 +3,12 @@ const context = {
     population: null,
     tolerance: null,
     mutationRate: null,
-    summationIndexes: null,
-    bestFitness: null
+    summationIndexes: null
 }
 
 const randomInteger = n => Math.floor(Math.random() * n);
 
-const sorter = (a, b) => {
-    const f1 = fitness(a);
-    const f2 = fitness(b);
-
-    return f1 > f2 ? 1 : (f2 > f1 ? -1 : 0);
-}
+const sorter = (a, b) => a.lastFitness - b.lastFitness;
 
 const pickIndexForCrossOver = () => {
     const r = 1 + randomInteger(context.summationIndexes);
@@ -26,7 +20,8 @@ const emptyImage = () => {
     return  {
         width: context.target.width,
         height: context.target.height,
-        pixels: []
+        pixels: [],
+        lastFitness: null,
     };
 }
 
@@ -71,6 +66,7 @@ const evolve = () => {
 
         const child = crossOver(context.population[index1], context.population[index2]);
 
+        child.lastFitness = fitness(child);
         newPopulation.push(child);
     }
 
@@ -88,6 +84,7 @@ const initializePopulation = count => {
             image.pixels.push(randomInteger(256));
         }
 
+        image.lastFitness = fitness(image);
         population.push(image);
     }
 
