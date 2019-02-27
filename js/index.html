@@ -1,0 +1,38 @@
+<style>
+#canvas-wraper {
+    width: 640px;
+    height: 480px;
+    margin: 0 auto;
+}
+
+#separator {
+    width: 500px;
+    margin: 50px auto;
+}
+
+#button-evolve {
+    display: block;
+}
+</style>
+
+<title>GA</title>
+
+<label>
+    Imagem:
+    <input type="file" id="input-image" pattern="*.jpg">
+</label>
+
+<button id="button-evolve">Evolve</button>
+
+<hr id="separator">
+
+<p>
+    Fitness: <span id="best-fitness">0.00</span>%
+</p>
+
+<div id="canvas-wraper">
+    <canvas id="canvas-evolution"></canvas>
+</div>
+
+<script src="ga.js"></script>
+<script src="dom.js"></script>
