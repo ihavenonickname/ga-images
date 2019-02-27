@@ -7,31 +7,65 @@
 
 #separator {
     width: 500px;
-    margin: 50px auto;
+    margin: 20px auto;
 }
 
 #button-evolve {
     display: block;
 }
+
+#area-inputs {
+    width: 360px;
+    margin: 0 auto;
+}
+
+#area-inputs > label, #area-inputs > label {
+    display: block;
+    margin: 5px auto;
+}
+
+#result {
+    text-align: center;
+}
 </style>
 
 <title>GA</title>
 
-<label>
-    Imagem:
-    <input type="file" id="input-image" pattern="*.jpg">
-</label>
+<form id="area-inputs">
+    <label>
+        Imagem:
+        <input type="file" id="target" pattern="*.jpg">
+    </label>
 
-<button id="button-evolve">Evolve</button>
+    <label>
+        Population size:
+        <input type="text" id="population-size" value="80">
+    </label>
+
+    <label>
+        Pixel tolerance:
+        <input type="text" id="pixel-tolerance" value="20">
+    </label>
+
+    <label>
+        Mutation rate:
+        <input type="text" id="mutation-rate" value="0.001">
+    </label>
+
+    <input type="submit" id="button-evolve" value="Evolve">
+</form>
+
 
 <hr id="separator">
 
-<p>
-    Fitness: <span id="best-fitness">0.00</span>%
-</p>
+<div id="result">
+    <p>
+        Fitness: <span id="best-fitness">0.00</span>%
+    </p>
 
-<div id="canvas-wraper">
-    <canvas id="canvas-evolution"></canvas>
+    <div id="canvas-wraper">
+        <canvas id="canvas-evolution"></canvas>
+    </div>
 </div>
 
 <script src="ga.js"></script>

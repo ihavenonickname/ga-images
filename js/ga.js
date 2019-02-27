@@ -1,15 +1,13 @@
 const context = {
     target: null,
-    population: [],
-    tolerance: 15,
-    mutationRate: 0.001,
-    summationIndexes: 0,
+    population: null,
+    tolerance: null,
+    mutationRate: null,
+    summationIndexes: null,
     bestFitness: null
 }
 
 const randomInteger = n => Math.floor(Math.random() * n);
-
-const getPixel = (image, x, y) => image.pixels[x * image.height + y];
 
 const sorter = (a, b) => {
     const f1 = fitness(a);
@@ -30,16 +28,6 @@ const emptyImage = () => {
         height: context.target.height,
         pixels: []
     };
-}
-
-const randomImage = () => {
-    const image = emptyImage();
-
-    for (let i = 0; i < context.target.pixels.length; i++) {
-        image.pixels.push(randomInteger(256));
-    }
-
-    return image;
 }
 
 const fitness = ({pixels}) => {
@@ -94,7 +82,13 @@ const initializePopulation = count => {
     const population = [];
 
     for (let i = 0; i < count; i++) {
-        population.push(randomImage());
+        const image = emptyImage();
+
+        for (let j = 0; j < context.target.pixels.length; j++) {
+            image.pixels.push(randomInteger(256));
+        }
+
+        population.push(image);
     }
 
     context.population = population.sort(sorter);

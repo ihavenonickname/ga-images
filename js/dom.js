@@ -1,7 +1,17 @@
-const get = document.getElementById.bind(document)
+const get = id => document.getElementById(id);
 
-get('input-image').addEventListener('change', () => {
-    if (get('input-image').files.length === 0) {
+const num = id => {
+    const value = parseFloat(get(id).value);
+
+    if (!Number.isFinite(value)) {
+        console.error(`"${id}" is not a number`);
+    }
+
+    return value;
+}
+
+get('target').addEventListener('change', () => {
+    if (get('target').files.length === 0) {
         console.log('no image');
 
         return;
@@ -32,31 +42,41 @@ get('input-image').addEventListener('change', () => {
         }
 
         context.target = { height, width, pixels };
-        initializePopulation(80);
-        context.summationIndexes = (Math.pow(context.population.length, 2) + context.population.length) / 2;
 
         console.log('done')
     });
 
-    image.src = URL.createObjectURL(get('input-image').files[0]);
+    image.src = URL.createObjectURL(get('target').files[0]);
 })
 
-get('button-evolve').addEventListener('click', () => {
-    const cb = () => {
+get('button-evolve').addEventListener('click', e => {
+    e.preventDefault();
+
+    const populationSize = num('population-size');
+
+    initializePopulation(populationSize);
+
+    context.summationIndexes = (Math.pow(context.population.length, 2) + context.population.length) / 2;
+
+    context.tolerance = num('pixel-tolerance');
+
+    context.mutationRate = num('mutation-rate');
+
+    const evolution = () => {
         evolve();
         draw(context.population[context.population.length - 1]);
         get('best-fitness').textContent = (context.bestFitness * 100).toFixed(2);
 
         if (context.bestFitness < 0.95) {
-            setTimeout(cb, 0);
-        } else {
-            get('button-evolve').disabled = false;
+            setTimeout(evolution, 0);
         }
     }
 
-    get('button-evolve').disabled = true;
+    for (const ele of document.querySelectorAll('#area-inputs input')) {
+        ele.disabled = true;
+    }
 
-    cb();
+    evolution();
 });
 
 const draw = image => {
